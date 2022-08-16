@@ -4,11 +4,7 @@ import Notiflix from 'notiflix';
 
 const refs = {
     start: document.querySelector('button[data-start]'),
-    timer: document.querySelector('.timer'),
-    days: document.querySelector('span[data-days]'),
-    hours: document.querySelector('span[data-hours]'),
-    minutes: document.querySelector('span[data-minutes]'),
-    seconds: document.querySelector('span[data-seconds]'),
+    values: document.querySelectorAll('.field > .value')
 };
 
 refs.start.addEventListener('click', onStartClick);
@@ -17,16 +13,17 @@ refs.start.disabled = true;
 let selectedDate = null; //variable to save Date that user pick
 
 function onStartClick (){ //making a backCountDown between a date now, and chosen date from user, also make it visible in the HTML 
-  const backCount = setInterval(()=>{
+    const backCount = setInterval(()=>{
     const chosenData = new Date(selectedDate) - new Date();
     const countStart = convertMs(chosenData);
 
-    refs.days.textContent = addLeadingZero(countStart.days);
-    refs.hours.textContent = addLeadingZero(countStart.hours);
-    refs.minutes.textContent = addLeadingZero(countStart.minutes);
-    refs.seconds.textContent = addLeadingZero(countStart.seconds);
+    refs.values[0].textContent = addLeadingZero(countStart.days);
+    refs.values[1].textContent = addLeadingZero(countStart.hours);
+    refs.values[2].textContent = addLeadingZero(countStart.minutes);
+    refs.values[3].textContent = addLeadingZero(countStart.seconds);
 
-    if(chosenData === new Date()){
+    if(chosenData <= 0){
+        refs.values.foreach(element => element.textContent = '00')
         clearInterval(backCount);
     };
 
@@ -34,7 +31,8 @@ function onStartClick (){ //making a backCountDown between a date now, and chose
 };
 
 
-flatpickr('#datetime-picker', options = { //let user chose a date, also a time, making imposible to chose date earler than date.now
+flatpickr('#datetime-picker', 
+    {                             //let user chose a date, also a time, making imposible to chose date earler than date.now 
     enableTime: true,
     time_24hr: true,
     defaultDate: new Date(),
@@ -45,15 +43,16 @@ flatpickr('#datetime-picker', options = { //let user chose a date, also a time, 
             refs.start.disabled = true;
 
             Notiflix.Notify.failure("Please choose a date in the future",
-            { position: 'center-top',
-            timeout: 2000, 
-            cssAnimationStyle: 'from-top',
-            fontAwesomeIconStyle: 'shadow', });
+            { 
+                position: 'center-top',
+                timeout: 2000, 
+                cssAnimationStyle: 'from-top',
+                fontAwesomeIconStyle: 'shadow', 
+            });
 
         } else {
             refs.start.disabled = false;
         };
-
         console.log(selectedDates[0]);
         selectedDate = selectedDates[0];
     },

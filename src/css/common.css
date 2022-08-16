@@ -65,7 +65,31 @@ button[data-start]:enabled{
   border: 1px solid teal;
 }
 
-button[data-start]:hover, button[data-start]:focus{
+button[data-start]>enabled:hover, button[data-start]>enabled:focus{
+  background-color:aqua;
+  color:black;
+  border-color:blue;
+  font-weight: 800;
+}
+
+button[data-stop]{
+  padding: 16px 54px;
+  font-size: 13px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+button[data-stop]:disabled{
+  background-color: gray;
+  color: ghostwhite;
+}
+
+button[data-stop]:enabled{
+  background-color: teal;
+  color: #fff;
+  border: 1px solid teal;
+}
+
+button[data-stop]>enabled:hover, button[data-stop]>enabled:focus{
   background-color:aqua;
   color:black;
   border-color:blue;
