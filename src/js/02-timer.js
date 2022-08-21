@@ -4,35 +4,36 @@ import Notiflix from 'notiflix';
 
 const refs = {
     start: document.querySelector('button[data-start]'),
-    values: document.querySelectorAll('.field > .value')
+    values: document.querySelectorAll('.field > .value'),
+    days: document.querySelector('span[data-days]'),
+    hours: document.querySelector('span[data-hours]'),
+    minutes: document.querySelector('span[data-minutes]'),
+    seconds: document.querySelector('span[data-seconds]'),
 };
 
 refs.start.addEventListener('click', onStartClick);
-refs.start.disabled = true;
+// refs.start.disabled = true;
 
 let selectedDate = null; //variable to save Date that user pick
 
 function onStartClick (){ //making a backCountDown between a date now, and chosen date from user, also make it visible in the HTML 
+    refs.start.disabled = true;
     const backCount = setInterval(()=>{
     const chosenData = new Date(selectedDate) - new Date();
     const countStart = convertMs(chosenData);
 
-    refs.values[0].textContent = addLeadingZero(countStart.days);
-    refs.values[1].textContent = addLeadingZero(countStart.hours);
-    refs.values[2].textContent = addLeadingZero(countStart.minutes);
-    refs.values[3].textContent = addLeadingZero(countStart.seconds);
+    onStartCount(countStart);
 
     if(chosenData <= 0){
-        refs.values.foreach(element => element.textContent = '00')
         clearInterval(backCount);
-    };
+        refs.values.forEach(element => element.textContent = '00');
+    } 
 
     }, 1000);
 };
 
 
-flatpickr('#datetime-picker', 
-    {                             //let user chose a date, also a time, making imposible to chose date earler than date.now 
+flatpickr('#datetime-picker', {                             //let user chose a date, also a time, making imposible to chose date earler than date.now 
     enableTime: true,
     time_24hr: true,
     defaultDate: new Date(),
@@ -53,7 +54,6 @@ flatpickr('#datetime-picker',
         } else {
             refs.start.disabled = false;
         };
-        console.log(selectedDates[0]);
         selectedDate = selectedDates[0];
     },
 });
@@ -80,3 +80,10 @@ function convertMs(ms) {  //Function make a days, hours, minutes, seconds from d
   
     return { days, hours, minutes, seconds };
 };
+
+function onStartCount(event){
+    refs.days.textContent = addLeadingZero(event.days);
+    refs.hours.textContent = addLeadingZero(event.hours);
+    refs.minutes.textContent = addLeadingZero(event.minutes);
+    refs.seconds.textContent = addLeadingZero(event.seconds);
+}

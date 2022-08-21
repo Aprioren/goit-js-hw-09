@@ -8,7 +8,6 @@ refs.form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const data = {
-    position: 1,
     form: event.currentTarget
   };
 
@@ -30,7 +29,7 @@ function createPromise(position, delay) { //creating a resolve/reject logic, and
 };
 
 function makingPromises(data){  //making promises chain from user input, delaing it, and making a notification
-  let {position, form} = data;
+  let {form} = data;
  
   const elements = form.elements;
   const amount = parseInt(elements['amount'].value, 10);
@@ -42,7 +41,7 @@ function makingPromises(data){  //making promises chain from user input, delaing
   for (let i = 0; i < amount; i++){
     createPromise(i + 1, currentDelay)
     .then((data) => {
-      const {position, delay} = data
+      const {position, delay} = data;
       Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`,
       { 
         position: 'top-right',
@@ -52,7 +51,7 @@ function makingPromises(data){  //making promises chain from user input, delaing
       });
       })
       .catch((data) => {
-        const {position, delay} = data
+        const {position, delay} = data;
         Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`,
         { 
           position: 'top-right',
